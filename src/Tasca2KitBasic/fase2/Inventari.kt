@@ -12,7 +12,7 @@ class Inventari {
     }
 
     fun updateProduct(id: Int, Stock: Int){
-        lista.
+        lista.get(id).stock
 
     }
 
