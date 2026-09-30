@@ -1,18 +1,20 @@
 package Tasca2KitBasic.fase2
 
 fun main() {
-    val c1 = Inventari()
+    val iv = Inventari()
     var encendido: Boolean = true
     var op: Int = 0
 
     while (encendido) {
         op = menuAcciones()
         when (op) {
-            1 -> c1.registrar()
+            1 -> {
+                val pro = Producte(iv.counterID, lectNombre(),lectPreu(),lectStock(),lectCategory())
+                iv.registrar(pro)}
             2 -> {
-                val prod = c1.getAllProducts()
-                for (producto in prod){
-                    println(producto)
+                //val prod = iv.getAllProducts()
+                for (x in iv.getAllProducts()){
+                    println(x.toString())
                 }
             }
 
@@ -24,12 +26,12 @@ fun main() {
                     when (nUpdt) {
                         1 -> {
                             var imputID = lectID()
-                            c1.updatePreu(imputID, lectPreu())
+                            iv.updatePreu(imputID, lectPreu())
                         }
 
                         2 -> {
                             var imputID = lectID()
-                            c1.updateStock(imputID, lectStock())
+                            iv.updateStock(imputID, lectStock())
                         }
 
                         3 -> { println("\nVolviendo al menú principal...")
@@ -88,19 +90,29 @@ fun lectID(): Int {
     return imputID.toInt()
 }
 
-fun lectPreu(): Int {
-    println("\nEscribe el PRECIO nuevo.")
-    var imputPreu: String = readln()
-    return imputPreu.toInt()
+fun lectPreu(): Float {
+    println("\nEscribe el PRECIO.")
+    var imputPreu: Float = readln().toFloat()
+    return imputPreu
 }
 
 fun lectStock(): Int {
-    println("\nEscribe el STOCK nuevo.")
+    println("\nEscribe el STOCK.")
     var imputStock: String = readln()
     return imputStock.toInt()
+}
+fun lectNombre(): String {
+    println("\nEscribe el NOMBRE.")
+    var imputNombre: String = readln()
+    return imputNombre
+}
+
+fun lectCategory(): String {
+    println("\nEscribe la CATEGORIA.")
+    var imputCategory: String = readln()
+    return imputCategory
 }
 
 fun errorOp() {
     println("Opción no valida.")
 }
-
