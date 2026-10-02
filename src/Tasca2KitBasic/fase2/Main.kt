@@ -4,15 +4,15 @@ fun main() {
     val iv = Inventari()
     var encendido: Boolean = true
     var op: Int = 0
+    val t = Tui()
 
     while (encendido) {
-        op = menuAcciones()
+        op = menuAcciones(t)
         when (op) {
             1 -> {
-                val pro = Producte(iv.counterID, lectNombre(),lectPreu(),lectStock(),lectCategory())
+                val pro = Producte(iv.counterID, lectNombre(t),lectPreu(t),lectStock(t),lectCategory(t))
                 iv.registrar(pro)}
             2 -> {
-                //val prod = iv.getAllProducts()
                 for (x in iv.getAllProducts()){
                     println(x.toString())
                 }
@@ -21,31 +21,33 @@ fun main() {
             3 -> {
                 var encendido2: Boolean = true
                 while (encendido2) {
-                    val nUpdt = menuAccUpdate()
+                    val nUpdt = menuAccUpdate(t)
 
                     when (nUpdt) {
                         1 -> {
-                            var imputID = lectID()
-                            iv.updatePreu(imputID, lectPreu())
+                            var imputID = lectID(t)
+                            iv.updatePreu(imputID, lectPreu(t))
                         }
 
                         2 -> {
-                            var imputID = lectID()
-                            iv.updateStock(imputID, lectStock())
+                            var imputID = lectID(t)
+                            iv.updateStock(imputID, lectStock(t))
                         }
 
-                        3 -> { println("\nVolviendo al menú principal...")
+                        3 -> {
+                            t.printBackToMainMenu()
                             encendido2 = false
                         }
 
-                        else -> errorOp()
+                        else -> t.printErrorOp()
                     }
                 }
             }
 
-            4 ->{println("Cerrando aplicación...")
+            4 ->{
+                t.printCloseApp()
                 encendido = false}
-            else -> errorOp()
+            else -> t.printErrorOp()
 
         }
 
@@ -53,66 +55,44 @@ fun main() {
 
 }
 
-fun menuAcciones(): Int {
-    println(
-        """ 
-        | 
-        | Selecciona el número la acción deseada: 
-        | 1. Crear nuevo producto.
-        | 2. Ver.
-        | 3. Actualizar.
-        | 4. Salir
-        | 
-    """.trimMargin()
-    )
+fun menuAcciones(t: Tui): Int {
+    t.printMainMenu()
     var op2: String = readln()
     return op2.toInt()
 }
 
-fun menuAccUpdate(): Int {
-    println(
-        """ 
-        | 
-        | Selecciona el número la actualización deseada: 
-        | 1. Precio.
-        | 2. Stock.
-        | 3. Salir.
-        | 
-    """.trimMargin()
-    )
+fun menuAccUpdate(t: Tui): Int {
+    t.printUptMenu()
     var op3: String = readln()
     return op3.toInt()
 }
 
-fun lectID(): Int {
-    println("\nEscribe el ID del producto objetivo.")
+fun lectID(t: Tui): Int {
+    t.printLectIDText()
     var imputID: String = readln()
     return imputID.toInt()
 }
 
-fun lectPreu(): Float {
-    println("\nEscribe el PRECIO.")
+fun lectPreu(t: Tui): Float {
+    t.printLectPrize()
     var imputPreu: Float = readln().toFloat()
     return imputPreu
 }
 
-fun lectStock(): Int {
-    println("\nEscribe el STOCK.")
+fun lectStock(t: Tui): Int {
+    t.printLectStock()
     var imputStock: String = readln()
     return imputStock.toInt()
 }
-fun lectNombre(): String {
-    println("\nEscribe el NOMBRE.")
+fun lectNombre(t: Tui): String {
+    t.printLectName()
     var imputNombre: String = readln()
     return imputNombre
 }
 
-fun lectCategory(): String {
-    println("\nEscribe la CATEGORIA.")
+fun lectCategory(t: Tui): String {
+    t.printLectCat()
     var imputCategory: String = readln()
     return imputCategory
 }
 
-fun errorOp() {
-    println("Opción no valida.")
-}
